@@ -4,6 +4,8 @@
 
 <img src="http://45.55.35.9:8000/html/Selection_009.png"/>
 
+##### Note: This project is just under development. If you feel like you can contribute then you are welcome. Just fork, create new branch, update it and send pull request.
+
 ##Table of Contents
 
 * Installation
