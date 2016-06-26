@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block content %}
+<title>PCS : Home</title>
+<div class="container" style="width: 90%; margin-top: 20px;">
+
+     <div class="row">
+
+        <div class="panel with-nav-tabs panel-primary">
+                <div class="panel-heading">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab1primary" data-toggle="tab">Home</a></li>
+                            <li><a href="#tab2primary" data-toggle="tab">Tripadvisor</a></li>
+                            <li><a href="#tab3primary" data-toggle="tab">Facebook</a></li>
+                            <li><a href="#tab4primary" data-toggle="tab">Yelp</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Options <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#tab11primary" data-toggle="tab">Help</a></li>
+                                    <li><a href="#tab12primary" data-toggle="tab">About</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="tab1primary">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                        <div class="box">
+                                            <h3>Welcome</h3>
+                                            <div class="utils">
+                                                <a href="#">Select one of the menu above</a>
+                                            </div>
+                                            <p><strong>Last Signed In : </strong> Wed 1 May, 7:31<br /><strong>IP Address : </strong> 192.168.1.101</p>
+                                        </div>
+                                        <div class="box">
+                                            <h2>Notice</h2>
+                                            <div class="utils">
+                                                <a href="#">View More</a>
+                                            </div>aa
+                                        </div>
+                                </div>
+
+                                <div class="col-md-5">
+                                   <h3>Crawler Status</h3>
+                                   <h4><a href="http://45.55.35.9/results/"> View All Results </a></h4>
+                                   <!-- <div class="bootstrap_table" style="overflow: scroll; width:500px;"> -->
+                                    <div class="bootstrap_table" style="width:500px;">
+                                         <table id="crawler_status_table" class="table table-striped" style="width:500px;">
+                                            <thead>
+                                              <tr>
+                                                <th>Crawler</th>
+                                                <th>Keyword</th>
+                                                <th>Started Time</th>
+                                                <th>Status</th>
+                                                <th>Records Crawled</th>
+                                                <th>Time Taken</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                            
+                                            {% for row in status_rows %}
+                                                {% autoescape off %}
+                                                  {{ row}}
+                                                {% endautoescape %}
+                                            {% endfor %}
+                                            
+                                            </tbody>
+                                          </table>
+                                      </div>
+                                    </div> 
+                                </div>                          
+                            </div>
+
+                        </div>
+
+
+                        <div class = "row">
+
+                        <div class="tab-pane fade" id="tab2primary">
+                            <h3> Tripadvisor</h3>
+                                    <div class="col-md-4">
+                                        <form id="trip_form" role="form" action="POST">
+                                        {% csrf_token %}
+                                            <div class="form-group">
+                                              <label for="keyword">Keyword:</label>
+                                              <input type="text" readonly="" class="form-control" id="keyword" name="keyword" placeholder="Enter Keyword eg. Wines">
+                                            </div>
+                                        
+                                            <div class="form-group">
+
+                                              <label for="category">Category:</label>
+                                              <input type="text" class="form-control" id="category" name="category" placeholder="Enter Category eg. c55">
+
+                                                {% autoescape off %}
+                                                {{ trip_category_dropdown }}
+                                                {% endautoescape %}
+                                            <!--  <label for="cat">Category:</label>
+                                              <input type="cat" class="form-control" id="cat" placeholder="Enter Category eg. cc-22">
+                                            -->
+                                            </div>
+
+                                            <div class="form-group">
+                                              <label for="location">Location:</label>
+                                              <input type="text" class="form-control" id="location" name="location" placeholder="Enter Location eg. Nepal">
+                                            {% autoescape off %}
+                                            {{ location_dropdown }}
+                                            {% endautoescape %}
+                                            </div> 
+                                            <input type="hidden" name="source" value="tripadvisor">
+                                            <button type="button" class="btn btn-default form_button">Submit</button>
+                                            <button type="button" class="btn btn-default cancel_box">Cancel</button>
+                                        </form>
+                                    </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab3primary">
+                            
+                            <h3> Facebook</h3>
+                                    <div class="col-md-4">
+                                        <form id="facebook_form" role="form" action="POST">
+                                        {% csrf_token %}
+                                            <div class="form-group">
+                                              <label for="keyword">Keyword:</label>
+                                              <input type="text" name="keyword" class="form-control" id="keyword" placeholder="">
+                                            </div>
+                                            <div class="form-group">
+                                              <label for="fb_token">Token:</label>
+                                              <input type="text" name="fb_token" class="form-control" id="fb_token" placeholder=""> <button type="button" class = "popup_button" onclick="show_popup('facebook_token');" >How to generate new token ?</button>
+                                            </div>  
+                                            <input type="hidden" name="source" value="facebook">                                
+                                            <button type="button" class="btn btn-default form_button">Submit</button>
+                                            <button type="button" class="btn btn-default cancel_box">Cancel</button>
+                                        </form>
+                                    </div>
+
+
+                        </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab4primary">
+                            
+                            <h3>Yelp</h3>
+                                    <div class="col-md-4">
+                                        <form id="yelp_form" role="form" action="POST">
+                                        {% csrf_token %}
+                                            <div class="form-group">
+                                              <label for="term">Keyword:</label>
+                                              <input type="text" name="term" class="form-control" id="term" placeholder="">
+                                            </div>
+
+                                            <div class="form-group">
+                                              <label for="location">Location:</label>
+                                              <input type="text" name="location" class="form-control" id="location" placeholder="">
+                                            </div>
+                                            <input type="hidden" name="source" value="yelp">                                
+                                            <button type="button" class="btn btn-default form_button">Submit</button>
+                                            <button type="button" class="btn btn-default cancel_box">Cancel</button>
+                                        </form>
+                                    </div>
+
+
+                        </div>
+                        </div>                        
+                        <div class="tab-pane fade" id="tab4primary">Help</div>
+                        <div class="tab-pane fade" id="tab5primary">About</div>
+                    </div>
+                </div>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

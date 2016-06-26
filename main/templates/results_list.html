@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+<title>PCS : Crawler Results</title>
+<div class="container" style="width: 90%; margin-top: 20px;">
+
+     <div class="row">
+
+     <h3><a href="http://45.55.35.9:8000/">Home</a></h3>
+     <h2>Results : </h2>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if records.has_previous %}
+            <a href="?page={{ records.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ records.number }} of {{ records.paginator.num_pages }}.
+        </span>
+
+        {% if records.has_next %}
+            <a href="?page={{ records.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+
+    <form><label for="page">Goto: </label><input type="text" id="page" name="page" style="max-width:50px;"><input type="submit"></form>
+</div>   
+
+
+                                    <div class="bootstrap_table" style="width:500px;">
+                                         <table id="crawler_status_table" class="table table-striped" style="width:500px;">
+                                            <thead>
+                                              <tr>
+                                                <th>Crawler</th>
+                                                <th>Keyword</th>
+                                                <th>Started Time</th>
+                                                <th>Status</th>
+                                                <th>Records Crawled</th>
+                                                <th>Time Taken</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+
+                                             {% for result in rows %}
+											   {% autoescape off %}
+												    {{ result }}
+												    
+											   {% endautoescape %}
+											  {% endfor %}
+                                            
+                                            
+                                            </tbody>
+                                          </table>
+                                      </div>
+
+                                   
+                                  
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+<!--
+<h1>Crawler Results</h1>
+<ul>
+    {% for result in records %}
+    <li>{{ result.keyword }}  :  
+    <a href="{% url "results_edit" result.id %}">{{ result.keyword }}</a>
+    <a href="{% url "results_delete" result.id %}">delete</a>
+    </li>
+    {% endfor %}
+</ul>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if records.has_previous %}
+            <a href="?page={{ records.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ records.number }} of {{ records.paginator.num_pages }}.
+        </span>
+
+        {% if records.has_next %}
+            <a href="?page={{ records.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+
+    <form><label for="page">Goto: </label><input type="text" id="page" name="page" style="max-width:50px;"><input type="submit"></form>
+</div>
+-->

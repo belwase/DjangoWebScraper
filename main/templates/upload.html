@@ -1,0 +1,40 @@
+{% extends "admin/base.html" %}
+
+{% block extrahead %}
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+{% endblock %}
+
+
+{% block content %}
+
+    <div id="content">
+        <h1>Upload Product URLs</h1>
+        {% if task_id %}
+            <h3>File upload succeeded</h3>
+            <h3>Now adding the products to the database...</h3>
+            <div id='pct' style="font-size: 60px;">0%</div>
+            <script>
+                (function poll() {
+                    setInterval(function(){
+                        $.get("/task_status/?id={{ task_id }}", function(d){
+                            $("#pct").html(d + '%');
+                            if (d == "100") {
+                                clearInterval();
+                                window.location = "/admin/";
+                            }
+                        })
+                    }, 3000);
+                })();
+            </script>
+        {% else %}
+            <p>Upload an Excel file that contains the product URLs with their corresponding SKUs.</p>
+            <div style="width: 30%;">
+                <form action="" method="post" enctype="multipart/form-data"}>{% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Submit" />
+                </form>  
+            </div>  
+        {% endif %}
+    </div>
+
+{% endblock %}
